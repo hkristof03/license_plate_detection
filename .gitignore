@@ -1,0 +1,7 @@
+.ipynb_checkpoints
+baza_slika
+license_plate_recognition.ipynb
+tesseract_fine_tune.ipynb
+hyperparams.yaml
+.idea/
+__pycache__/
