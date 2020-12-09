@@ -21,7 +21,6 @@ def detect_license_plates(plot: bool = False):
 
     for img_path in image_paths:
 
-        detections = []
         img_id = img_path.split(os.sep)[-1]
         condition = (df_labels['img_id'] == img_id)
         desired_label = df_labels.loc[condition]['license_plate'].values[0]
@@ -58,6 +57,11 @@ def detect_license_plates(plot: bool = False):
 
         if plates_gray:
             for i, plate in enumerate(plates_gray):
+                # Normalize and threshold image
+                plate = cv2.normalize(plate, None, alpha=0, beta=255,
+                                      norm_type=cv2.NORM_MINMAX)
+                res, plate = cv2.threshold(plate, 100, 255, cv2.THRESH_BINARY)
+
                 text = pytesseract.image_to_string(plate, lang="eng",
                                                    config='--psm 7')
                 text = ''.join(list(filter(lambda x_: x_ in lpc, text)))
@@ -79,7 +83,12 @@ def detect_license_plates(plot: bool = False):
                     print(f"Detected text for img: {img_id} is: {text}")
 
                     if plot:
-                        utils.plot_images(plate, plates[i])
+                        #utils.plot_images(plate, plates[i])
+                        image_copy = image.copy()
+                        _ = cv2.drawContours(image_copy, cnts_filtered, -1,
+                                             (0, 255, 0), 2)
+                        utils.plot_images2(image, gray, blur, edges,
+                                           image_copy, plate, text)
         else:
             print(f"There was no successful detection for image: {img_id}")
 
@@ -96,4 +105,4 @@ if __name__ == '__main__':
         'C:\\', 'Program Files', 'Tesseract-OCR', 'tesseract.exe'
     )
 
-    detect_license_plates(plot=True)
+    detect_license_plates(plot=False)

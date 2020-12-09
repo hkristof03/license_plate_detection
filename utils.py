@@ -65,3 +65,31 @@ def plot_images(
     plt.waitforbuttonpress(5.0)
     plt.close(fig)
 
+
+def plot_images2(
+    img1: np.ndarray,
+    img2: np.ndarray,
+    img3: np.ndarray,
+    img4: np.ndarray,
+    img5: np.ndarray,
+    img6: np.ndarray,
+    detected_text: str
+) -> None:
+    """
+    """
+    fig, axs = plt.subplots(nrows=3, ncols=2, figsize=(10, 10))
+    axs[0, 0].imshow(img1)
+    axs[0, 0].set(xticks=[], yticks=[], title="Original")
+    axs[0, 1].imshow(img2, cmap='gray')
+    axs[0, 1].set(xticks=[], yticks=[], title="Gray")
+    axs[1, 0].imshow(img3, cmap='gray')
+    axs[1, 0].set(xticks=[], yticks=[], title="Blur")
+    axs[1, 1].imshow(img4, cmap='gray')
+    axs[1, 1].set(xticks=[], yticks=[], title="Canny Edge Detector")
+    axs[2, 0].imshow(img5)
+    axs[2, 0].set(xticks=[], yticks=[], title="Contours")
+    axs[2, 1].imshow(img6, cmap='gray')
+    axs[2, 1].set(xticks=[], yticks=[], title=detected_text)
+
+    plt.waitforbuttonpress(30.0)
+    plt.close(fig)
